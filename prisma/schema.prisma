@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Update as per your database provider
+  url      = env("DATABASE_URL")
+}
+
+enum AssetClassification {
+  Laptop
+  Desktop
+  Peripherals
+  Server
+  Storage
+  TableLibraries
+  SanSwitches
+  Firewall
+  L3Switches
+  L2SwitchesManaged
+  L2SwitchesUnmanaged
+  POEManaged
+  POEUnmanaged
+}
+
+enum AllocationStatus {
+  InUse
+  InStore
+  Scrap
+  InRepair
+}
+
+enum Role {
+  admin
+  user
+}
+
+model Asset {
+  id                Int                @id @default(autoincrement())
+  classification    AssetClassification
+  make              String
+  assetModel        String
+  purchaseDate      DateTime
+  warranty          String
+  serviceTag        String             @unique
+  assetCode         String
+  location          String
+  costCenterCode    String
+  allocationStatus  AllocationStatus
+  empId             String?            // Optional for assets not allocated
+  employee          Employee?          @relation(fields: [empId], references: [empId])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model Employee {
+  id         Int       @id @default(autoincrement())
+  empId      String    @unique
+  empName    String
+  department String
+  manager    String
+  managerId  String
+  hod        String
+  empPhone   String
+  location   String
+  assets     Asset[]   // One-to-many relationship with assets
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
