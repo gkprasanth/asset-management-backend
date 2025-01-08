@@ -44,6 +44,12 @@ app.get("/assets", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+app.get("/", (req: Request, res: Response)=>{
+  res.json({
+    "message": "server working"
+  })
+})
+
 // Create a new asset
 app.post("/assets", async (req: Request, res: Response): Promise<void> => {
   const {
