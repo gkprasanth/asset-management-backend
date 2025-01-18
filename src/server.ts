@@ -33,7 +33,7 @@ app.use(cors())
 app.use("/api/auth", authRoutes);
 app.use("/api/assets", allocationRoutes);
 
-// Get all assets
+ 
 app.get("/assets", async (req: Request, res: Response): Promise<void> => {
   try {
     const assets = await prisma.asset.findMany();
@@ -50,7 +50,7 @@ app.get("/", (req: Request, res: Response)=>{
   })
 })
 
-// Create a new asset
+ 
 app.post("/assets", async (req: Request, res: Response): Promise<void> => {
   const {
     classification,
@@ -90,7 +90,7 @@ app.post("/assets", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Create a new employee
+ 
 app.post("/emp", async (req: Request, res: Response): Promise<void> => {
   const {
     empId,
@@ -126,7 +126,7 @@ app.post("/emp", async (req: Request, res: Response): Promise<void> => {
 
 
 
-// Start server
+ 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
