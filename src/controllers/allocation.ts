@@ -29,7 +29,7 @@ export const fetchStatus = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    // Return the asset status
+     
     res.status(200).json(status.allocationStatus);
   } catch (err) {
     console.error("Error fetching asset status:", err);
@@ -42,7 +42,7 @@ export const search = async (req: Request, res: Response): Promise<void> => {
   const { empId } = req.body;
   
   try {
-    // Ensure empId is provided
+   
     if (!empId) {
       res.status(400).json({ error: "Employee ID is required for search" });
       return;
@@ -74,9 +74,9 @@ export const allocateAsset = async (req: Request, res: Response): Promise<any> =
   const { assetCode, empId } = req.body;
   
   try {
-    // Use findFirst if assetCode is not unique
+ 
     const asset = await prisma.asset.findFirst({
-      where: { assetCode: assetCode }, // Use assetCode instead of id
+      where: { assetCode: assetCode },  
     });
   
     if (!asset) {
@@ -86,7 +86,7 @@ export const allocateAsset = async (req: Request, res: Response): Promise<any> =
     // Check if the asset is in "In Store" status
     if (asset.allocationStatus === "InStore") {
       const updatedAsset = await prisma.asset.update({
-        where: { id: asset.id }, // Use asset's id here instead of assetCode
+        where: { id: asset.id },  
         data: {
           empId,
           allocationStatus: "InUse",
