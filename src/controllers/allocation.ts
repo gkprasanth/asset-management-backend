@@ -143,7 +143,7 @@ export const getAllocatedAssets = async (_req: Request, res: Response) => {
         allocationStatus: "InUse",
       },
       include: {
-        employee: true, // Include employee details if needed
+        employee: true,  
       },
     });
 
