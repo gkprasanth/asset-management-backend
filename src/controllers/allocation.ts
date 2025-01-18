@@ -11,20 +11,19 @@ export const fetchStatus = async (req: Request, res: Response): Promise<void> =>
   const { assetCode } = req.body;
 
   try {
-    // Check if assetCode is provided
-    if (!assetCode) {
+     if (!assetCode) {
       res.status(400).json({ error: "Asset Code is required for search" });
       return;
     }
 
-    // Fetch the asset status based on the assetCode
+ 
     const status = await prisma.asset.findFirst({
       where: {
         assetCode: assetCode,
       },
     });
 
-    // If the asset is not found, return a 404 response
+    
     if (!status) {
       res.status(404).json({ message: "Asset not found" });
       return;
