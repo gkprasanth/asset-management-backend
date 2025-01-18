@@ -5,13 +5,12 @@ import { PrismaClient } from "@prisma/client";
 import { body, validationResult } from "express-validator";
 
 const prisma = new PrismaClient();
-const JWT_SECRET = "your_jwt_secret"; // Replace with a secure secret in a production environment
-
-// Register a new user
+const JWT_SECRET = "your_jwt_secret";  
+ 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
   const { username, email, password, role } = req.body;
 
-  // Validation
+   
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -19,17 +18,17 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
   }
 
   try {
-    // Check if the user already exists
+ 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       res.status(400).json({ error: "Email is already in use." });
       return;
     }
 
-    // Hash password
+     
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the user
+     
     const user = await prisma.user.create({
       data: {
         username,
@@ -46,19 +45,19 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-// Login user and issue JWT
+  
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   try {
-    // Find the user by email
+     
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       res.status(404).json({ error: "User not found." });
       return;
     }
 
-    // Verify password
+    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       res.status(400).json({ error: "Invalid credentials." });
