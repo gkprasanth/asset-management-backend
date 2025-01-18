@@ -83,7 +83,7 @@ export const allocateAsset = async (req: Request, res: Response): Promise<any> =
       return res.status(404).json({ message: "Asset not found" });
     }
   
-    // Check if the asset is in "In Store" status
+     
     if (asset.allocationStatus === "InStore") {
       const updatedAsset = await prisma.asset.update({
         where: { id: asset.id },  
@@ -135,10 +135,7 @@ export const allocateAsset = async (req: Request, res: Response): Promise<any> =
 // };
 
 
-
-/**
- * Get all allocated assets
- */
+ 
 export const getAllocatedAssets = async (_req: Request, res: Response) => {
   try {
     const assets = await prisma.asset.findMany({
